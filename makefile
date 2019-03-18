@@ -90,14 +90,8 @@ create_model: #create model name=[modelName]
 create_controller: #create controller name=[controllerName]
 	@sudo docker-compose exec $(php) php artisan make:controller $(name)
 
-create_api_controller: #create API controller name=[controllerName]
-	@sudo docker-compose exec $(php) php artisan make:controller ..\\..\\Api\\V1\\Controllers\\$(name)
-
 create_request: #create FormRequest name=[controllerName]
 	@sudo docker-compose exec $(php) php artisan make:request $(name)
-
-create_resource: #create Resource name=[resource]
-	@sudo docker-compose exec $(php) php artisan make:resource $(name)Collection
 
 create_mailer: #create mailer name=[controllerName]
 	@sudo docker-compose exec $(php) php artisan make:mail $(name)
@@ -117,15 +111,11 @@ watch: #Run watch
 test: #test
 	@sudo docker exec -it $(container_php) bash -c 'vendor/bin/phpunit'
 
-test_class: #test specific class name="$(name)"
-	@sudo docker exec -it $(container_php) bash -c 'vendor/bin/phpunit --filter $(name)'
-
 tinker: #Run tinker
 	@sudo docker-compose exec $(php) php artisan tinker
 
-route: #Run tinker
+route: #Show routes
 	@sudo docker-compose exec $(php) php artisan route:list
-
 
 refresh: #Refresh the database and run all database seeds
 	@@sudo docker exec -it $(container_php) bash -c 'php artisan migrate:refresh --seed'
@@ -143,9 +133,3 @@ composer_dump: #update vendors
 
 clear_log:
 	@sudo cat /dev/null > storage/logs/laravel.log; sudo cat /dev/null > storage/logs/queue-worker.log
-
-swagger_publish: #publish swagger conf
-	@sudo docker exec -it $(container_php) bash -c 'php artisan l5-swagger:publish'
-
-swagger: #generate dock
-	@sudo docker exec -it $(container_php) bash -c 'php artisan l5-swagger:generate'
