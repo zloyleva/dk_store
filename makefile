@@ -99,6 +99,9 @@ create_mailer: #create mailer name=[controllerName]
 create_test: #create test name=[testName]
 	@sudo docker-compose exec $(php) php artisan make:test $(name)Test
 
+create_seeder: #create seeder name=[seederName]
+	@sudo docker-compose exec $(php) php artisan make:seeder $(name)Seeder
+
 #####################################
 ###                               ###
 ###          Work with FE         ###
