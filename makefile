@@ -5,6 +5,7 @@ php     = app
 db      = db
 nodejs  = nodejs
 nginx  = webserver
+user =
 
 container_php       = $(DOCKER_PREFIX)-$(php)
 container_db        = $(DOCKER_PREFIX)-$(db)
@@ -29,6 +30,8 @@ composer_dep: #install composer dependency >> ./vendors
 key: #generate APP key
 	@sudo docker-compose exec $(php) php artisan key:generate
 
+set_user_permit:
+	@sudo chown -R $(USER):$(USER) $(CURDIR)
 
 #####################################
 ###                               ###
@@ -85,22 +88,22 @@ run_com_node: #Run commands in PHP container c=[commands]
 #####################################
 
 create_model: #create model name=[modelName]
-	@sudo docker-compose exec $(php) php artisan make:model Models/$(name) -m
+	@docker-compose exec $(php) php artisan make:model Models/$(name) -m && make set_user_permit
 
 create_controller: #create controller name=[controllerName]
-	@sudo docker-compose exec $(php) php artisan make:controller $(name)
+	@docker-compose exec $(php) php artisan make:controller $(name)Controller && make set_user_permit
 
 create_request: #create FormRequest name=[controllerName]
-	@sudo docker-compose exec $(php) php artisan make:request $(name)
+	@docker-compose exec $(php) php artisan make:request $(name)
 
 create_mailer: #create mailer name=[controllerName]
-	@sudo docker-compose exec $(php) php artisan make:mail $(name)
+	@docker-compose exec $(php) php artisan make:mail $(name)
 
 create_test: #create test name=[testName]
-	@sudo docker-compose exec $(php) php artisan make:test $(name)Test
+	@docker-compose exec $(php) php artisan make:test $(name)Test
 
 create_seeder: #create seeder name=[seederName]
-	@sudo docker-compose exec $(php) php artisan make:seeder $(name)Seeder
+	@docker-compose exec $(php) php artisan make:seeder $(name)Seeder
 
 #####################################
 ###                               ###
