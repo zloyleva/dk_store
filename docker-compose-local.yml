@@ -74,6 +74,17 @@ services:
     networks:
       - app-network
 
+  beanstalkd:
+    build: ./docker/beanstalkd
+    container_name: "${DOCKER_PREFIX}-beanstalkd"
+    ports:
+      - "11300:11300"
+    privileged: true
+    depends_on:
+      - app
+    networks:
+      - app-network
+
 #Docker Networks
 networks:
   app-network:

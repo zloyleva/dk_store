@@ -5,7 +5,7 @@ php     = app
 db      = db
 nodejs  = nodejs
 nginx  = webserver
-user =
+current_date = $(date '+%Y-%m-%d')
 
 container_php       = $(DOCKER_PREFIX)-$(php)
 container_db        = $(DOCKER_PREFIX)-$(db)
@@ -95,6 +95,9 @@ create_controller: #create controller name=[controllerName]
 
 create_request: #create FormRequest name=[controllerName]
 	@docker-compose exec $(php) php artisan make:request $(name)
+
+create_job: #create Job name=[job]
+	@docker-compose exec $(php) php artisan make:job $(name)
 
 create_mailer: #create mailer name=[controllerName]
 	@docker-compose exec $(php) php artisan make:mail $(name)
