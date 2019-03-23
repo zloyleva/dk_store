@@ -39,10 +39,10 @@ set_user_permit:
 ###                               ###
 #####################################
 
-start_local: #start docker container for LOCAL ENV
+start_local: set_perm_storset_perm_stor #start docker container for LOCAL ENV
 	@sudo docker-compose -f docker-compose-local.yml up -d
 
-start: #start docker container
+start: set_perm_storset_perm_stor #start docker container
 	@sudo docker-compose up -d
 
 stop_local: #stop docker container
@@ -94,19 +94,19 @@ create_controller: #create controller name=[controllerName]
 	@docker-compose exec $(php) php artisan make:controller $(name)Controller && make set_user_permit
 
 create_request: #create FormRequest name=[controllerName]
-	@docker-compose exec $(php) php artisan make:request $(name)
+	@docker-compose exec $(php) php artisan make:request $(name) && make set_user_permit
 
 create_job: #create Job name=[job]
-	@docker-compose exec $(php) php artisan make:job $(name)
+	@docker-compose exec $(php) php artisan make:job $(name) && make set_user_permit
 
 create_mailer: #create mailer name=[controllerName]
-	@docker-compose exec $(php) php artisan make:mail $(name)
+	@docker-compose exec $(php) php artisan make:mail $(name) && make set_user_permit
 
 create_test: #create test name=[testName]
-	@docker-compose exec $(php) php artisan make:test $(name)Test
+	@docker-compose exec $(php) php artisan make:test $(name)Test && make set_user_permit
 
 create_seeder: #create seeder name=[seederName]
-	@docker-compose exec $(php) php artisan make:seeder $(name)Seeder
+	@docker-compose exec $(php) php artisan make:seeder $(name)Seeder && make set_user_permit
 
 #####################################
 ###                               ###
@@ -142,3 +142,6 @@ composer_dump: #update vendors
 
 clear_log:
 	@sudo cat /dev/null > storage/logs/laravel.log; sudo cat /dev/null > storage/logs/queue-worker.log
+
+set_perm_storset_perm_stor:
+	@sudo chmod -R 777 storage/
