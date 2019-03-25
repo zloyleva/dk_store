@@ -108,6 +108,9 @@ create_test: #create test name=[testName]
 create_seeder: #create seeder name=[seederName]
 	@docker-compose exec $(php) php artisan make:seeder $(name)Seeder && make set_user_permit
 
+create_provider: #create provider name=[providerName]
+	@docker-compose exec $(php) php artisan make:provider $(name)ServiceProvider && make set_user_permit
+
 #####################################
 ###                               ###
 ###          Work with FE         ###
