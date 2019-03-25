@@ -15,6 +15,7 @@ class ParsePrice implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $readPrice;
+
     /**
      * ParsePrice constructor.
      * @param ReadPrice $readPrice

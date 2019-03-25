@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\Product;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -17,20 +18,20 @@ class ProcessPriceLine implements ShouldQueue
 
     /**
      * ProcessPriceLine constructor.
-     * @param $priceLine
+     * @param string $priceLine
      */
-    public function __construct($priceLine)
+    public function __construct(string $priceLine)
     {
         $this->priceLine = $priceLine;
     }
 
     /**
-     * Execute the job.
-     *
-     * @return void
+     * @param Product $product
      */
-    public function handle()
+    public function handle(Product $product)
     {
-//        echo $this->priceLine . "\n";
+        $this->priceLine = preg_replace('/\t+/', '', $this->priceLine); //Remove tab characters, because these will broke parser
+        $rawProduct = json_decode($this->priceLine, JSON_UNESCAPED_UNICODE);
+        $product->insertOrUpdateProducts($rawProduct);
     }
 }
