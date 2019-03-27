@@ -13,3 +13,4 @@ yarn-error.log
 
 .idea/
 storage/debugbar/
+docker/mongo/db/

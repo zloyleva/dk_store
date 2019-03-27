@@ -2,12 +2,18 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Pagination;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 
 class Product extends Model
 {
+    use Pagination;
+
     protected $fillable = [
         'sku',
         'name',
@@ -26,6 +32,15 @@ class Product extends Model
         'sales_count',
         'rate',
     ];
+
+    /**
+     * Set Relations
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function categories():BelongsTo
+    {
+        return $this->belongsTo(Category::class,'category_id','id');
+    }
 
     /**
      * @param array $item
@@ -55,5 +70,15 @@ class Product extends Model
                 'image'       => $imageURL
             ]
         );
+    }
+
+    /**
+     * @param Request $request
+     * @return LengthAwarePaginator
+     */
+    public function getAll(Request $request):LengthAwarePaginator
+    {
+        $query = $this->with('categories');
+        return $this->addPagination($query, $request->query());
     }
 }
