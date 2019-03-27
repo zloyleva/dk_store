@@ -59,31 +59,43 @@ return [
             ]) : [],
         ],
 
-        'pgsql' => [
-            'driver' => 'pgsql',
-            'host' => env('DB_HOST', '127.0.0.1'),
-            'port' => env('DB_PORT', '5432'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
-            'charset' => 'utf8',
-            'prefix' => '',
-            'prefix_indexes' => true,
-            'schema' => 'public',
-            'sslmode' => 'prefer',
+//        'pgsql' => [
+//            'driver' => 'pgsql',
+//            'host' => env('DB_HOST', '127.0.0.1'),
+//            'port' => env('DB_PORT', '5432'),
+//            'database' => env('DB_DATABASE', 'forge'),
+//            'username' => env('DB_USERNAME', 'forge'),
+//            'password' => env('DB_PASSWORD', ''),
+//            'charset' => 'utf8',
+//            'prefix' => '',
+//            'prefix_indexes' => true,
+//            'schema' => 'public',
+//            'sslmode' => 'prefer',
+//        ],
+
+//        'sqlsrv' => [
+//            'driver' => 'sqlsrv',
+//            'host' => env('DB_HOST', 'localhost'),
+//            'port' => env('DB_PORT', '1433'),
+//            'database' => env('DB_DATABASE', 'forge'),
+//            'username' => env('DB_USERNAME', 'forge'),
+//            'password' => env('DB_PASSWORD', ''),
+//            'charset' => 'utf8',
+//            'prefix' => '',
+//            'prefix_indexes' => true,
+//        ],
+        'mongodb' => [
+            'driver'   => 'mongodb',
+            'host'     => env('MONGO_HOST', 'localhost'),
+            'port'     => env('MONGO_PORT', 27017),
+            'database' => env('MONGO_DATABASE', 'database'),
+            'username' => env('MONGO_USERNAME', 'user'),
+            'password' => env('MONGO_PASSWORD','secret'),
+            'options'  => [
+                'database' => '',
+            ]
         ],
 
-        'sqlsrv' => [
-            'driver' => 'sqlsrv',
-            'host' => env('DB_HOST', 'localhost'),
-            'port' => env('DB_PORT', '1433'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
-            'charset' => 'utf8',
-            'prefix' => '',
-            'prefix_indexes' => true,
-        ],
 
     ],
 
