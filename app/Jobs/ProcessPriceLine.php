@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
@@ -27,11 +28,16 @@ class ProcessPriceLine implements ShouldQueue
 
     /**
      * @param Product $product
+     * @param Category $category
+     * @throws \Exception
      */
-    public function handle(Product $product)
+    public function handle(Product $product, Category $category)
     {
-        $this->priceLine = preg_replace('/\t+/', '', $this->priceLine); //Remove tab characters, because these will broke parser
+        $this->priceLine = preg_replace(['/(\\\\([^"]))/', '/\t+/'], ['/${2}', ''], $this->priceLine); //Remove "tab" and "\" characters, because these will broke parser
+
         $rawProduct = json_decode($this->priceLine, JSON_UNESCAPED_UNICODE);
-        $product->insertOrUpdateProducts($rawProduct);
+        $currentCategoryId = $category->insertNewCategory(collect($rawProduct['category']));
+
+        $product->insertOrUpdateProducts($rawProduct, $currentCategoryId);
     }
 }
