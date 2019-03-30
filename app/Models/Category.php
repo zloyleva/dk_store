@@ -28,10 +28,10 @@ class Category extends Model
         $slug = $this->getCategorySlug($categories);
         $name = $this->filterCategoriesNames($categories[$depth-1]);
 
-        $currentCategory = $this->firstOrCreate(
+        $currentCategory = $this->updateOrCreate(
             [
-                'depth' => $depth,
                 'parent_id' => $this->getParentCategoriesId($categories),
+                'depth' => $depth,
                 'name' => $name,
             ],
             ['slug'         => $slug,]

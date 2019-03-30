@@ -36,8 +36,14 @@ class ProcessPriceLine implements ShouldQueue
         $this->priceLine = preg_replace(['/(\\\\([^"]))/', '/\t+/'], ['/${2}', ''], $this->priceLine); //Remove "tab" and "\" characters, because these will broke parser
 
         $rawProduct = json_decode($this->priceLine, JSON_UNESCAPED_UNICODE);
-        $currentCategoryId = $category->insertNewCategory(collect($rawProduct['category']));
+        try{
+            $currentCategoryId = $category->insertNewCategory(collect($rawProduct['category']));
+            $product->insertOrUpdateProducts($rawProduct, $currentCategoryId);
+        }catch (\Exception $exception){
+            Log::error(print_r($rawProduct,true));
+            $this->fail("Duplicate insert!");
+        }
 
-        $product->insertOrUpdateProducts($rawProduct, $currentCategoryId);
+
     }
 }
