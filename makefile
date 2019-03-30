@@ -42,14 +42,14 @@ set_user_permit:
 start_local: set_perm_storset_perm_stor #start docker container for LOCAL ENV
 	@sudo docker-compose -f docker-compose-local.yml up -d
 
-start: set_perm_storset_perm_stor #start docker container
-	@sudo docker-compose up -d
+#start: set_perm_storset_perm_stor #start docker container
+#	@sudo docker-compose up -d
 
 stop_local: #stop docker container
 	@sudo docker-compose -f docker-compose-local.yml down
 
-stop: #stop docker container
-	@sudo docker-compose down
+#stop: #stop docker container
+#	@sudo docker-compose down
 
 
 #####################################
