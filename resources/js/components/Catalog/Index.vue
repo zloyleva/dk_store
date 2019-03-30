@@ -9,19 +9,23 @@
                 <div class="container">
                     <div class="row">
                         <product-item-component v-for="item in products.data"
-                                                :product="item"
+                                                :product="item" :key="item.id"
                         ></product-item-component>
                     </div>
                 </div>
 
             </div>
         </div>
+
+        <pagination-component :last_page="products.last_page"></pagination-component>
+
     </div>
 </template>
 
 <script>
 
     Vue.component('product-item-component', require('./ProductItem').default);
+    Vue.component('pagination-component', require('./Pagination').default);
 
     export default {
         name: "Index",
@@ -30,7 +34,7 @@
                 type: Object,
                 required: true
             }
-        }
+        },
     }
 </script>
 
