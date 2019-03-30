@@ -6,6 +6,7 @@ use App\Models\Traits\Pagination;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -74,11 +75,11 @@ class Product extends Model
 
     /**
      * @param Request $request
-     * @return LengthAwarePaginator
+     * @return Collection
      */
-    public function getAll(Request $request):LengthAwarePaginator
+    public function getAll(Request $request):Collection
     {
         $query = $this->with('categories');
-        return $this->addPagination($query, $request->query());
+        return collect( $this->addPagination($query, $request->query()) );
     }
 }
