@@ -6,6 +6,10 @@
             </div>
             <div class="col-12 col-sm-9">
 
+                <search-and-filter-component
+                    :request="request"
+                ></search-and-filter-component>
+
                 <div class="container">
                     <div class="row">
                         <product-item-component v-for="item in products.data"
@@ -17,7 +21,10 @@
             </div>
         </div>
 
-        <pagination-component :last_page="products.last_page"></pagination-component>
+        <pagination-component
+            :last_page="products.last_page"
+            :request="request"
+        ></pagination-component>
 
     </div>
 </template>
@@ -25,6 +32,7 @@
 <script>
 
     Vue.component('product-item-component', require('./ProductItem').default);
+    Vue.component('search-and-filter-component', require('./SearchAndFilter').default);
     Vue.component('pagination-component', require('./Pagination').default);
 
     export default {
@@ -33,6 +41,9 @@
             products:{
                 type: Object,
                 required: true
+            },
+            request:{
+                type: [Array, Object],
             }
         },
     }

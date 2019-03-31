@@ -4,6 +4,7 @@
 
     <catalog-component
         :products="{{ $products }}"
+        :request="{{ $request }}"
     ></catalog-component>
 
 @endsection

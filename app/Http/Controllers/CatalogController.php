@@ -10,8 +10,10 @@ class CatalogController extends Controller
 {
     public function index(Request $request, Category $category, Product $product){
         // Todo create Repository for collect all data to collection
+        // Show only need price for user
         return view('catalog.index',[
-            "products" => $product->getAll($request)
+            "products" => $product->getAll($request),
+            "request" => collect($request->except("page"))
         ]);
     }
 

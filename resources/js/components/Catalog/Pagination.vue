@@ -12,11 +12,32 @@
         props:{
             last_page:{
                 type: Number
+            },
+            request:{
+                type: [Array, Object],
             }
         },
         methods: {
+
             linkGen(pageNum) {
-                return pageNum === 1 ? '?' : `?page=${pageNum}`
+
+                return pageNum === 1 ?
+                    {
+                        path: this.getFirstPageUrl(),
+                        query: {...this.request}
+                    }
+                    :
+                    {
+                        path: location.pathname,
+                        query: { page: pageNum, ...this.request }
+                    }
+            },
+
+            getFirstPageUrl(){
+                return location.pathname.length > 3 && location.pathname[location.pathname.length-1] === "/"?
+                    location.pathname.slice(0,-1)
+                    :
+                    location.pathname
             }
         }
     }

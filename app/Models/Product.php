@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Traits\Pagination;
+use App\Models\Traits\Search;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,7 +14,7 @@ use Illuminate\Http\Request;
 
 class Product extends Model
 {
-    use Pagination;
+    use Pagination, Search;
 
     protected $fillable = [
         'sku',
@@ -32,6 +33,10 @@ class Product extends Model
         'views',
         'sales_count',
         'rate',
+    ];
+
+    protected $searchable = [
+        'name', 'sku'
     ];
 
     /**
@@ -80,6 +85,11 @@ class Product extends Model
     public function getAll(Request $request):Collection
     {
         $query = $this->with('categories');
+
+        if(isset($request->search)){
+            $this->addSearch($query, $request->search, $this->searchable);
+        }
+
         return collect( $this->addPagination($query, $request->query()) );
     }
 }
