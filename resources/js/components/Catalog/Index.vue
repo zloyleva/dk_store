@@ -14,6 +14,7 @@
                     <div class="row">
                         <product-item-component v-for="item in products.data"
                                                 :product="item" :key="item.id"
+                                                @addtocart="addToCartHandler"
                         ></product-item-component>
                     </div>
                 </div>
@@ -44,8 +45,24 @@
             },
             request:{
                 type: [Array, Object],
+            },
+            routes:{
+                type: Object,
+                required: true
             }
         },
+        methods:{
+            addToCartHandler(product){
+                console.log("addToCartHandler - catalog", product);
+
+                axios.post(this.routes.addToCart,{
+                    product_id: product.id
+                })
+                    .then(res => {
+                        console.log(res)
+                    })
+            }
+        }
     }
 </script>
 

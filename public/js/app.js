@@ -11265,6 +11265,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 Vue.component('product-item-component', __webpack_require__(/*! ./ProductItem */ "./resources/js/components/Catalog/ProductItem.vue").default);
 Vue.component('search-and-filter-component', __webpack_require__(/*! ./SearchAndFilter */ "./resources/js/components/Catalog/SearchAndFilter.vue").default);
 Vue.component('pagination-component', __webpack_require__(/*! ./Pagination */ "./resources/js/components/Catalog/Pagination.vue").default);
@@ -11277,6 +11278,20 @@ Vue.component('pagination-component', __webpack_require__(/*! ./Pagination */ ".
     },
     request: {
       type: [Array, Object]
+    },
+    routes: {
+      type: Object,
+      required: true
+    }
+  },
+  methods: {
+    addToCartHandler: function addToCartHandler(product) {
+      console.log("addToCartHandler - catalog", product);
+      axios.post(this.routes.addToCart, {
+        product_id: product.id
+      }).then(function (res) {
+        console.log(res);
+      });
     }
   }
 });
@@ -11371,6 +11386,12 @@ __webpack_require__.r(__webpack_exports__);
     product: {
       type: Object,
       required: true
+    }
+  },
+  methods: {
+    addToCartHandler: function addToCartHandler() {
+      console.log("addToCartHandler - product");
+      this.$emit("addtocart", this.product);
     }
   }
 });
@@ -70226,7 +70247,8 @@ var render = function() {
                 _vm._l(_vm.products.data, function(item) {
                   return _c("product-item-component", {
                     key: item.id,
-                    attrs: { product: item }
+                    attrs: { product: item },
+                    on: { addtocart: _vm.addToCartHandler }
                   })
                 }),
                 1
@@ -70348,7 +70370,10 @@ var render = function() {
           _vm._v(" "),
           _c(
             "button",
-            { staticClass: "btn btn-danger  mt-2", attrs: { href: "#" } },
+            {
+              staticClass: "btn btn-danger mt-2",
+              on: { click: _vm.addToCartHandler }
+            },
             [_vm._v("В корзину")]
           )
         ])
@@ -82698,6 +82723,7 @@ try {
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios.defaults.withCredentials = true;
 /**
  * Next we will register the CSRF Token as a common header with Axios so that
  * all outgoing HTTP requests automatically have it attached. This is just

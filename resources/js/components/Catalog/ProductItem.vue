@@ -12,7 +12,7 @@
                 <div class="card-text">Цена: {{ product.price_user }} грн</div>
                 <div class="controls">
                     <a :href="`/product/${product.id}/${product.slug}`" class="btn btn-secondary mt-2">Подробнее</a>
-                    <button href="#" class="btn btn-danger  mt-2">В корзину</button>
+                    <button class="btn btn-danger mt-2" @click="addToCartHandler">В корзину</button>
                 </div>
             </div>
         </div>
@@ -27,6 +27,13 @@
             product:{
                 type: Object,
                 required: true
+            }
+        },
+        methods:{
+            addToCartHandler(){
+                console.log("addToCartHandler - product");
+
+                this.$emit("addtocart", this.product);
             }
         }
     }
