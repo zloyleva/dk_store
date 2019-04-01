@@ -33,6 +33,18 @@ class CartItem extends Model
         );
     }
 
+    public function subFromCart(array $data){
+        return $this->updateOrCreate(
+            [
+                "user_id" => $data["user_id"],
+                "product_id" => $data["product_id"],
+            ],
+            [
+                "count" => \DB::raw('IF(count > 0, count - 1, 0)') //isset() || +1
+            ]
+        );
+    }
+
     public function getCurrentUserCart(User $user){
         return $this->with("product")->where("user_id",$user->getUserId())->get();
     }
