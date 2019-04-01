@@ -36,4 +36,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * @return string
+     */
+    public function getUserId():string
+    {
+        return (string) auth()->check()?auth()->user()->id:session("user_id");
+    }
 }

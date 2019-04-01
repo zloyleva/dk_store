@@ -28,12 +28,12 @@ class CartItem extends Model
                 "product_id" => $data["product_id"],
             ],
             [
-                "count" => \DB::raw('count + 1')
+                "count" => \DB::raw('count + 1') //isset() || +1
             ]
         );
     }
 
-    public function getCurrentUserCart(){
-        return $this->with("product")->get();
+    public function getCurrentUserCart(User $user){
+        return $this->with("product")->where("user_id",$user->getUserId())->get();
     }
 }

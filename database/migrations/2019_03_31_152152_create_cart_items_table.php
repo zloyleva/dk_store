@@ -16,8 +16,8 @@ class CreateCartItemsTable extends Migration
             $table->bigIncrements('id');
 
             $table->string('user_id');
-            $table->integer('product_id');
-            $table->integer('count');
+            $table->unsignedInteger('product_id');
+            $table->unsignedInteger('count');
 
             $table->timestamps();
 

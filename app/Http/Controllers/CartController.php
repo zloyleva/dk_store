@@ -3,25 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\CartItem;
-use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
 
-    public function show(CartItem $cartItem){
-        return $cartItem->getCurrentUserCart();
+    public function show(CartItem $cartItem, User $user){
+        return $cartItem->getCurrentUserCart($user);
     }
 
-    public function addToCart(Request $request, CartItem $cartItem):?CartItem
+    public function addToCart(Request $request, CartItem $cartItem, User $user):?CartItem
     {
-        if(auth()->check()){
-            $user = auth()->user();
-            return $cartItem->addToCart([
-                "user_id" => auth()->user()->id,
-                "product_id" => $request->product_id,
-            ]);
-        }
-        return null;
+        return $cartItem->addToCart([
+            "user_id" => $user->getUserId(),
+            "product_id" => $request->product_id,
+        ]);
     }
 }
