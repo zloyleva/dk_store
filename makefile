@@ -93,6 +93,9 @@ create_model: #create model name=[modelName]
 create_controller: #create controller name=[controllerName]
 	@docker-compose exec $(php) php artisan make:controller $(name)Controller && make set_user_permit
 
+create_middleware: #create middleware name=[middlewareName]
+	@docker-compose exec $(php) php artisan make:middleware $(name) && make set_user_permit
+
 create_request: #create FormRequest name=[controllerName]
 	@docker-compose exec $(php) php artisan make:request $(name) && make set_user_permit
 
