@@ -12,10 +12,10 @@ import BootstrapVue from 'bootstrap-vue';
 Vue.use(BootstrapVue);
 
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-library.add(faSearch);
+library.add(faSearch, faPlus, faMinus);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
@@ -33,6 +33,7 @@ Vue.config.productionTip = false;
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 Vue.component('catalog-component', require('./components/Catalog/Index').default);
+Vue.component('cart-component', require('./components/Cart/Index').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
