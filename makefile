@@ -113,7 +113,7 @@ create_test: #create test name=[testName]
 	@docker-compose exec $(php) php artisan make:test $(name)Test && make set_user_permit
 
 create_seeder: #create seeder name=[seederName]
-	@docker-compose exec $(php) php artisan make:seeder $(name)Seeder && make set_user_permit
+	@docker-compose exec $(php) php artisan make:seeder $(name)TableSeeder && make set_user_permit
 
 create_provider: #create provider name=[providerName]
 	@docker-compose exec $(php) php artisan make:provider $(name)ServiceProvider && make set_user_permit
