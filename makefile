@@ -33,6 +33,10 @@ key: #generate APP key
 set_user_permit:
 	@sudo chown -R $(USER):$(USER) $(CURDIR)
 
+
+create_pub_simlink: #
+	@docker-compose exec $(php) php artisan storage:link
+
 #####################################
 ###                               ###
 ###       Start/stop project      ###
