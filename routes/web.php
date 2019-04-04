@@ -21,6 +21,7 @@ Route::prefix("cart")->group(function(){
     Route::get('/',"CartController@show")->name("showCart");
 
     Route::post('/add',"CartController@addToCart")->name("addToCart");
+    Route::post('/set',"CartController@setItemCountInCart")->name("setItemCountInCart");
 });
 
 Auth::routes();

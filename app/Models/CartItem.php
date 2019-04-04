@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -19,9 +20,10 @@ class CartItem extends Model
 
     /**
      * @param array $data
-     * @return mixed
+     * @return \App\Models\CartItem
      */
-    public function addToCart(array $data){
+    public function addToCart(array $data):CartItem
+    {
         return $this->updateOrCreate(
             [
                 "user_id" => $data["user_id"],
@@ -33,19 +35,35 @@ class CartItem extends Model
         );
     }
 
-    public function subFromCart(array $data){
+    /**
+     * @param array $data
+     * @return \App\Models\CartItem
+     */
+    public function setItemCountInCart(array $data):CartItem
+    {
+
+        $count = $data['count'] >= 0 ? $data['count'] : 0;
+
         return $this->updateOrCreate(
             [
                 "user_id" => $data["user_id"],
                 "product_id" => $data["product_id"],
             ],
             [
-                "count" => \DB::raw('IF(count > 0, count - 1, 0)') //isset() || +1
+                "count" => $count
             ]
         );
     }
 
-    public function getCurrentUserCart(User $user){
-        return $this->with("product")->where("user_id",$user->getUserId())->get();
+    /**
+     * @param \App\Models\User $user
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getCurrentUserCart(User $user):Collection
+    {
+
+        return $this->with(["product" => function($query){
+            $query->select('id', 'name', 'price_user as price');
+        }])->where("user_id",$user->getUserId())->get();
     }
 }
