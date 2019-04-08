@@ -11627,6 +11627,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ProductItem",
   props: {
@@ -70928,7 +70929,13 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "card-text" }, [
-          _vm._v("Цена: " + _vm._s(_vm.product.price_user) + " грн")
+          _vm._v("Тип цены: " + _vm._s(_vm.product.price_desc))
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-text" }, [
+          _vm._v("Цена: "),
+          _c("b", [_vm._v(_vm._s(_vm.product.price))]),
+          _vm._v(" грн")
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "controls" }, [
