@@ -17,9 +17,8 @@
 </head>
 <body>
     <div id="app">
-        <nav>
-            Nav
-        </nav>
+
+        @yield('nav')
 
         <main>
             @yield('content')

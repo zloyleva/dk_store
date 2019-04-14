@@ -10,7 +10,7 @@
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name("home");
 
 Route::prefix("catalog")->group(function(){
     Route::get('/',"CatalogController@index")->name("catalog");
@@ -18,7 +18,7 @@ Route::prefix("catalog")->group(function(){
 });
 
 Route::prefix("cart")->group(function(){
-    Route::get('/',"CartController@show")->name("showCart");
+    Route::get('/',"CartController@show")->name("cart");
 
     Route::post('/add',"CartController@addToCart")->name("addToCart");
     Route::post('/set',"CartController@setItemCountInCart")->name("setItemCountInCart");

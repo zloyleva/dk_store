@@ -15,6 +15,10 @@ class CartController extends Controller
     public function __construct()
     {
         $this->routes = [
+            "home" => route("home"),
+            "catalog" => route("catalog"),
+            "cart" => route("cart"),
+
             "addToCart" => route("addToCart"),
             "setItemCountInCart" => route("setItemCountInCart"),
         ];

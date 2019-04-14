@@ -84,4 +84,35 @@ class Category extends Model
         $pattern = "/((\d+\.*)+\s)?(\D.+)/";
         return preg_replace($pattern, '$3', $categoryItem);
     }
+
+    public function getAll(){
+
+        $result = [];
+
+        //$category = $this->get()[30];
+        //$c = collect(explode("--",$category->slug));
+        //$result[$c->shift()] = $this->foo(collect($c->all()), $category);
+
+
+        foreach ([$this->get()[30], $this->get()[31]] as $category){
+            //dd($category);
+            $c = collect(explode("--",$category->slug));
+            $result[$c->shift()] = $this->foo(collect($c->all()), $category);
+
+        }
+
+        //dd($result);
+
+        return $this->get();
+    }
+
+    public function foo(Collection $arr, $data){
+        if($arr->count() == 0){
+            return $data;
+        }
+        if($arr->count() == 1){
+            return ["$arr[0]" => $data];
+        }
+        return [$arr->shift() => $this->foo(collect($arr->all()), $data)];
+    }
 }

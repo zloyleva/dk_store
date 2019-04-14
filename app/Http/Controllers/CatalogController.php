@@ -14,6 +14,10 @@ class CatalogController extends Controller
     public function __construct()
     {
         $this->routes = [
+            "home" => route("home"),
+            "catalog" => route("catalog"),
+            "cart" => route("cart"),
+
             "addToCart" => route("addToCart"),
         ];
     }
@@ -30,6 +34,7 @@ class CatalogController extends Controller
         // Show only need price for user
         return view('catalog.index',[
             "products" => $product->getAll($request),
+            "categories" => $category->getAll($request),
             "request" => collect($request->except("page")),
             "routes" => collect($this->routes),
         ]);
