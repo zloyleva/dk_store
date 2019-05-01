@@ -14,7 +14,7 @@ Route::get('/', function () {
 
 Route::prefix("catalog")->group(function(){
     Route::get('/',"CatalogController@index")->name("catalog");
-    Route::get('/{slug}',"CatalogController@catalogSlug")->name("catalogSlug")->where('slug','[A-Za-z0-9-]+');
+    Route::get('/{slug}',"CatalogController@indexBySlag")->name("catalogSlug")->where('slug','[A-Za-z0-9-]+');
 });
 
 Route::prefix("cart")->group(function(){

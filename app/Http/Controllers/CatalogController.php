@@ -35,14 +35,19 @@ class CatalogController extends Controller
         // Show only need price for user
         return view('catalog.index',[
             "products" => $product->getAll($request),
-            "categories" => $category->getAll($request),
             "request" => collect($request->except("page")),
             "routes" => collect($this->routes),
             "categories" => $category->categories()->get(),
         ]);
     }
 
-    public function catalogSlug($slug, Request $request){
-        return "catalogSlug";
+    public function indexBySlag($slug, Request $request, Category $category, Product $product){
+
+        return view('catalog.index',[
+            "products" => $product->getAll($request),
+            "request" => collect($request->except("page")),
+            "routes" => collect($this->routes),
+            "categories" => $category->categoriesBySlug($slug)->get(),
+        ]);
     }
 }

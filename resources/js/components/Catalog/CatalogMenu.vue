@@ -3,13 +3,13 @@
 
         <div class="p-2">
 
-            <div class="card p-3">
+            <div class="card">
 
-                <h3 class="h5">Разделы каталога</h3>
+                <h3 class="h5 p-3">Разделы каталога</h3>
 
                 <ul class="list-unstyled catalog_menu">
-                    <li v-for="category in categories" class="catalog_menu-item" :key="category.id">
-                        <a class="catalog_menu-item-link font-weight-bolder"
+                    <li v-for="category in categories" :class="{'catalog_menu-item active':category.active, 'catalog_menu-item':!category.active}" :key="category.id">
+                        <a class="catalog_menu-item-link d-block font-weight-bolder pl-3 py-1"
                            :href="`${routes.catalog}/${category.slug}`">{{ category.name }}</a>
 
                         <sub-catalog-menu-component

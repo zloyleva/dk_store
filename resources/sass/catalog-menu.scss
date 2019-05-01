@@ -1,6 +1,13 @@
 .catalog_menu{
     margin-bottom: 0;
     .catalog_menu-item{
+        &.active > .catalog_menu-item-link{
+            background-color: #f00;
+            color: #fff;
+            &:hover{
+                color: #5e0000;
+            }
+        }
         .catalog_menu-item-link{
             color: #777;
             text-decoration: unset;

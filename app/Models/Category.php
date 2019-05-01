@@ -3,7 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -97,5 +100,12 @@ class Category extends Model
 
     public function scopeCategories($query){
         $query->with('children')->where('parent_id', 0);
+    }
+
+    public function scopeCategoriesBySlug($query, $slug){
+        $query->select(DB::raw("*, if( slug = '$slug', true, false) as active"))
+            ->with(['children' => function($q) use($slug) {
+                $q->select(DB::raw("*, if( slug = '$slug', true, false) as active"));
+            }])->where('parent_id', 0);
     }
 }
