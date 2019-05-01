@@ -1,5 +1,22 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);@charset "UTF-8";
 
+.card {
+  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+}
+
+.catalog_menu {
+  margin-bottom: 0;
+}
+
+.catalog_menu .catalog_menu-item .catalog_menu-item-link {
+  color: #777;
+  text-decoration: unset;
+}
+
+.catalog_menu .catalog_menu-item .catalog_menu-item-link:hover {
+  color: #f00;
+}
+
 /*!
  * Bootstrap v4.3.1 (https://getbootstrap.com/)
  * Copyright 2011-2019 The Bootstrap Authors

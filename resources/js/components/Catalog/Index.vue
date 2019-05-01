@@ -1,23 +1,23 @@
 <template>
     <div class="container">
         <div class="row">
-            <div class="col-12 col-sm-3">
-                Store name
-            </div>
-            <div class="col-12 col-sm-9">
+
+            <catalog-menu-component
+                :categories="categories"
+                :routes="routes"
+            ></catalog-menu-component>
+
+            <div class="col-12 col-sm-7 col-md-8 col-lg-9 d-flex flex-wrap">
 
                 <search-and-filter-component
                     :request="request"
                 ></search-and-filter-component>
 
-                <div class="container">
-                    <div class="row">
-                        <product-item-component v-for="item in products.data"
-                                                :product="item" :key="item.id"
-                                                @addtocart="addToCartHandler"
-                        ></product-item-component>
-                    </div>
-                </div>
+                <product-item-component
+                    v-for="item in products.data"
+                    :product="item" :key="item.id"
+                    @addtocart="addToCartHandler"
+                ></product-item-component>
 
             </div>
         </div>
@@ -35,6 +35,7 @@
     Vue.component('product-item-component', require('./ProductItem').default);
     Vue.component('search-and-filter-component', require('./SearchAndFilter').default);
     Vue.component('pagination-component', require('./Pagination').default);
+    Vue.component('catalog-menu-component', require('./CatalogMenu').default);
 
     export default {
         name: "Index",
@@ -48,6 +49,10 @@
             },
             routes:{
                 type: Object,
+                required: true
+            },
+            categories:{
+                type: Array,
                 required: true
             }
         },

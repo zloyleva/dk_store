@@ -15,6 +15,7 @@ class CatalogController extends Controller
     {
         $this->routes = [
             "addToCart" => route("addToCart"),
+            "catalog" => route("catalog"),
         ];
     }
 
@@ -32,6 +33,7 @@ class CatalogController extends Controller
             "products" => $product->getAll($request),
             "request" => collect($request->except("page")),
             "routes" => collect($this->routes),
+            "categories" => $category->categories()->get(),
         ]);
     }
 

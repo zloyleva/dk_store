@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -10,6 +12,16 @@ use Illuminate\Support\Str;
 class Category extends Model
 {
     protected $fillable = ['parent_id', 'depth', 'name', 'slug'];
+
+    public function parent():BelongsTo
+    {
+        return $this->belongsTo(Category::class, 'parent_id');
+    }
+
+    public function children():HasMany
+    {
+        return $this->hasMany(Category::class,  'parent_id');
+    }
 
     /**
      * @param Collection $categories
@@ -61,7 +73,7 @@ class Category extends Model
     {
         return $categories->map(function ($item) {
             return trim($item);
-        });
+        })->slice(0, 2);
     }
 
     /**
@@ -83,5 +95,9 @@ class Category extends Model
     {
         $pattern = "/((\d+\.*)+\s)?(\D.+)/";
         return preg_replace($pattern, '$3', $categoryItem);
+    }
+
+    public function scopeCategories($query){
+        $query->with('children')->where('parent_id', 0);
     }
 }

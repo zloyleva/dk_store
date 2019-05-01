@@ -1,0 +1,12 @@
+.catalog_menu{
+    margin-bottom: 0;
+    .catalog_menu-item{
+        .catalog_menu-item-link{
+            color: #777;
+            text-decoration: unset;
+            &:hover{
+                color: #f00;
+            }
+        }
+    }
+}
