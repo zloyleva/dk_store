@@ -30,8 +30,8 @@ class CreateUsersTable extends Migration
             $table->timestamp('last_visit');
 
             $table->string('role',10)->default('user');
-            $table->integer('price_type')->default(1);
-            $table->integer('manager_id')->default(1);
+            $table->smallInteger('price_type')->default(1);
+            $table->smallInteger('manager_id')->default(1);
             $table->string('client_type')->nullable();
             $table->string('client_comment')->nullable();
 
@@ -39,6 +39,8 @@ class CreateUsersTable extends Migration
             $table->timestamps();
 
             $table->index('email');
+            $table->index('price_type');
+            $table->index('manager_id');
         });
     }
 

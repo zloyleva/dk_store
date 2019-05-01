@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -16,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'fname', 'lname', 'address', 'phone', 'visits', 'last_visit', 'role', 'price_type', 'manager_id', 'client_type', 'client_comment'
     ];
 
     /**
@@ -36,6 +37,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function price_type():BelongsTo
+    {
+        return $this->belongsTo(PriceType::class, 'price_type','id');
+    }
 
     /**
      * @return string

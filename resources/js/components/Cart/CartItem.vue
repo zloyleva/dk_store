@@ -3,24 +3,24 @@
     <tr>
         <th scope="row">{{ i + 1 }}</th>
         <td>{{ cartItem.product.name }}</td>
-        <td>{{ cartItem.product.price_user }}</td>
+        <td>{{ cartItem.product.price }}</td>
         <td>
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
+            <div class="input-group">
+                <div class="input-group-prepend d-none d-sm-flex">
                     <button class="btn btn-outline-secondary" type="button" @click="subItemCount">
                         <font-awesome-icon icon="minus" />
                     </button>
                 </div>
                 <input type="text" class="form-control" placeholder=""
                        v-model="cartItem.count" @input="inputItemCount">
-                <div class="input-group-append">
+                <div class="input-group-append d-none d-sm-flex">
                     <button class="btn btn-outline-secondary" type="button" @click="addItemCount">
                         <font-awesome-icon icon="plus" />
                     </button>
                 </div>
             </div>
         </td>
-        <td>@mdo</td>
+        <td class="d-none d-sm-flex">{{ parseFloat(cartItem.product.price * cartItem.count).toFixed(2) }}</td>
     </tr>
 
 </template>
@@ -30,10 +30,12 @@
         name: "CartItem",
         props:{
             item:{
-
+                type:Object,
+                require: true
             },
             i:{
-
+                type:Number,
+                require: true
             }
         },
         data(){
@@ -48,7 +50,7 @@
             this.debounceHandler =   _.debounce(()=>{
                 console.log("debounce");
 
-
+                this.$emit("changeItemCount", this.cartItem)
 
             }, 1000,{leading:false, trailing:true});
         },
@@ -73,12 +75,6 @@
                 this.debounceHandler();
             }
         },
-        filters:{
-            onlyNumbers(value){
-                console.log("onlyNumbers");
-                return value;
-            }
-        }
     }
 </script>
 

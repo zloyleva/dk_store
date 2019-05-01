@@ -13,40 +13,74 @@
                             <th scope="col">#</th>
                             <th scope="col">Название</th>
                             <th scope="col">Цена</th>
-                            <th scope="col">Количество</th>
-                            <th scope="col">Сумма</th>
+                            <th scope="col">Кол-во</th>
+                            <th scope="col" class="d-none d-sm-flex">Сумма</th>
                         </tr>
                     </thead>
                     <tbody>
 
                         <cart_item-component
-                            v-for="(item, i) in items" :key="item.id" :item="item" :i="i"
+                            v-for="(item, i) in cartItems" :key="item.id" :item="item" :i="i"
+                            @changeItemCount="changeItemCountHandler"
                         ></cart_item-component>
 
                     </tbody>
                 </table>
             </div>
         </div>
+
+        <div class="row my-2">
+            <div class="col-12 card">
+                <div class="container">
+                    <div class="row my-2">
+                        <div class="col-9 text-right font-weight-bold">Всего:</div>
+                        <div class="col-3 text-center">120</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <order-component></order-component>
+
     </div>
 </template>
 
 <script>
     Vue.component('cart_item-component', require('./CartItem').default);
+    Vue.component('order-component', require('./OrderComponent').default);
     export default {
         name: "Index",
         props:{
             items:{
-                type: Array
+                type: Array,
+                require:true
+            },
+            routes:{
+                type: Object,
+                require:true
             }
         },
+        data(){
+            return{
+                cartItems: []
+            }
+        },
+        created(){
+            this.cartItems = [...this.items];
+        },
         methods:{
-            changeInputProductsCount(){
-                console.log("changeInputProductsCount");
-                _.debounce(() => console.log("debounce"), 200)
+            changeItemCountHandler(cartItem){
+                console.log("changeItemCountHandler",cartItem);
 
-            },
-            changProductsCountHandler(){
-                console.log("debounce")
+                axios.post(this.routes.setItemCountInCart,{
+                    product_id: cartItem.product.id,
+                    count: cartItem.count,
+                })
+                    .then(res => {
+                        console.log(res.data.items)
+                        this.cartItems = [...res.data.items];
+                    })
+                    .catch(err => console.log(err.message))
             }
         },
     }
@@ -55,5 +89,9 @@
 <style scoped>
     .table th{
         border-top: unset;
+    }
+    .table thead th {
+        vertical-align: bottom;
+        border-bottom: 1px solid #dee2e6;
     }
 </style>

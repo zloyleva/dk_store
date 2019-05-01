@@ -32,6 +32,7 @@ Vue.config.productionTip = false;
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
+Vue.component('header-component', require('./components/Layouts/Header').default);
 Vue.component('catalog-component', require('./components/Catalog/Index').default);
 Vue.component('cart-component', require('./components/Cart/Index').default);
 

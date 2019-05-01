@@ -3,8 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -73,7 +71,7 @@ class Category extends Model
     {
         return $categories->map(function ($item) {
             return trim($item);
-        })->slice(0, 2);
+        });
     }
 
     /**

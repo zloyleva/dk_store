@@ -8,6 +8,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -51,13 +52,15 @@ class Product extends Model
     /**
      * @param array $item
      * @param int $categoryId
+     * @return \App\Models\Product
      */
-    public function insertOrUpdateProducts(array $item, int $categoryId=0){
+    public function insertOrUpdateProducts(array $item, int $categoryId=0):Product
+    {
 
         Log::info("in model " . $item['sku']);
         $imageURL = '/images/no-image.png';
 
-        $this->updateOrCreate(
+        return $this->updateOrCreate(
             ['sku'         => (integer) $item['sku']],
             [
                 'name'        => trim($item['name']),
@@ -84,7 +87,23 @@ class Product extends Model
      */
     public function getAll(Request $request):Collection
     {
-        $query = $this->with('categories');
+        $price_name = "price_user";
+        $price_desc = "Розничная";
+
+        if(auth()->check()){
+            $users_price = auth()->user()->price_type()->first();
+            $price_name = $users_price->type;
+            $price_desc = $users_price->description;
+        }
+
+        $query = $this->select(['id','sku','name','description',
+
+            "$price_name as price",
+            DB::raw("'$price_desc' as price_desc"),
+
+            'category_id','stock','image','views','rate',]);
+
+        $query->with('categories');
 
         if(isset($request->search)){
             $this->addSearch($query, $request->search, $this->searchable);
