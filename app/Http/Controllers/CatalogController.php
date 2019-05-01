@@ -41,10 +41,12 @@ class CatalogController extends Controller
         ]);
     }
 
-    public function indexBySlag($slug, Request $request, Category $category, Product $product){
+    public function indexBySlag(string $slug, Request $request, Category $category, Product $product){
+
+        $categoriesId = $category->getCategoriesIdBySlug($slug);
 
         return view('catalog.index',[
-            "products" => $product->getAll($request),
+            "products" => $product->getAll($request,$categoriesId),
             "request" => collect($request->except("page")),
             "routes" => collect($this->routes),
             "categories" => $category->categoriesBySlug($slug)->get(),

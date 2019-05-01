@@ -7,17 +7,19 @@
                 :routes="routes"
             ></catalog-menu-component>
 
-            <div class="col-12 col-sm-7 col-md-8 col-lg-9 d-flex flex-wrap">
+            <div class="col-12 col-sm-7 col-md-8 col-lg-9">
 
-                <search-and-filter-component
-                    :request="request"
-                ></search-and-filter-component>
+                <div class="d-flex flex-wrap">
+                    <search-and-filter-component
+                        :request="request"
+                    ></search-and-filter-component>
 
-                <product-item-component
-                    v-for="item in products.data"
-                    :product="item" :key="item.id"
-                    @addtocart="addToCartHandler"
-                ></product-item-component>
+                    <product-item-component
+                        v-for="item in products.data"
+                        :product="item" :key="item.id"
+                        @addtocart="addToCartHandler"
+                    ></product-item-component>
+                </div>
 
             </div>
         </div>

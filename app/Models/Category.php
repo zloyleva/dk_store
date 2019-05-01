@@ -74,7 +74,7 @@ class Category extends Model
     {
         return $categories->map(function ($item) {
             return trim($item);
-        });
+        })->slice(0,2);
     }
 
     /**
@@ -98,14 +98,37 @@ class Category extends Model
         return preg_replace($pattern, '$3', $categoryItem);
     }
 
+    /**
+     * @param $query
+     */
     public function scopeCategories($query){
         $query->with('children')->where('parent_id', 0);
     }
 
+    /**
+     * @param $query
+     * @param $slug
+     */
     public function scopeCategoriesBySlug($query, $slug){
         $query->select(DB::raw("*, if( slug = '$slug', true, false) as active"))
             ->with(['children' => function($q) use($slug) {
                 $q->select(DB::raw("*, if( slug = '$slug', true, false) as active"));
             }])->where('parent_id', 0);
+    }
+
+    /**
+     * @param string $slug
+     * @return Collection
+     */
+    public function getCategoriesIdBySlug(string $slug):Collection
+    {
+        return $this->select('id')
+            ->where('slug',$slug)
+            ->union(
+                $this->select('id')
+                    ->whereIn('parent_id',$this->select('id')
+                        ->where('slug',$slug))
+            )
+            ->get();
     }
 }

@@ -11558,6 +11558,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 Vue.component('product-item-component', __webpack_require__(/*! ./ProductItem */ "./resources/js/components/Catalog/ProductItem.vue").default);
 Vue.component('search-and-filter-component', __webpack_require__(/*! ./SearchAndFilter */ "./resources/js/components/Catalog/SearchAndFilter.vue").default);
 Vue.component('pagination-component', __webpack_require__(/*! ./Pagination */ "./resources/js/components/Catalog/Pagination.vue").default);
@@ -70943,26 +70945,26 @@ var render = function() {
             attrs: { categories: _vm.categories, routes: _vm.routes }
           }),
           _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "col-12 col-sm-7 col-md-8 col-lg-9 d-flex flex-wrap"
-            },
-            [
-              _c("search-and-filter-component", {
-                attrs: { request: _vm.request }
-              }),
-              _vm._v(" "),
-              _vm._l(_vm.products.data, function(item) {
-                return _c("product-item-component", {
-                  key: item.id,
-                  attrs: { product: item },
-                  on: { addtocart: _vm.addToCartHandler }
+          _c("div", { staticClass: "col-12 col-sm-7 col-md-8 col-lg-9" }, [
+            _c(
+              "div",
+              { staticClass: "d-flex flex-wrap" },
+              [
+                _c("search-and-filter-component", {
+                  attrs: { request: _vm.request }
+                }),
+                _vm._v(" "),
+                _vm._l(_vm.products.data, function(item) {
+                  return _c("product-item-component", {
+                    key: item.id,
+                    attrs: { product: item },
+                    on: { addtocart: _vm.addToCartHandler }
+                  })
                 })
-              })
-            ],
-            2
-          )
+              ],
+              2
+            )
+          ])
         ],
         1
       ),

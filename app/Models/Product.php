@@ -17,6 +17,22 @@ class Product extends Model
 {
     use Pagination, Search;
 
+    private $price_name;
+    private $price_desc;
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->price_name = "price_user";
+        $this->price_desc = "Розничная";
+
+        if(auth()->check()){
+            $users_price = auth()->user()->price_type()->first();
+            $this->price_name = $users_price->type;
+            $this->price_desc = $users_price->description;
+        }
+    }
+
     protected $fillable = [
         'sku',
         'name',
@@ -41,8 +57,7 @@ class Product extends Model
     ];
 
     /**
-     * Set Relations
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function categories():BelongsTo
     {
@@ -83,32 +98,24 @@ class Product extends Model
 
     /**
      * @param Request $request
+     * @param Collection|null $categoriesId
      * @return Collection
      */
-    public function getAll(Request $request):Collection
+    public function getAll(Request $request, Collection $categoriesId=null):Collection
     {
-        $price_name = "price_user";
-        $price_desc = "Розничная";
+        $query = $this->select([
+            'id','sku','name','description', 'category_id','stock','image','views','rate',
+            "$this->price_name as price",
+            DB::raw("'$this->price_desc' as price_desc"),
+        ])->with('categories');
 
-        if(auth()->check()){
-            $users_price = auth()->user()->price_type()->first();
-            $price_name = $users_price->type;
-            $price_desc = $users_price->description;
+        if($categoriesId){
+            $query->whereIn('category_id',$categoriesId);
         }
-
-        $query = $this->select(['id','sku','name','description',
-
-            "$price_name as price",
-            DB::raw("'$price_desc' as price_desc"),
-
-            'category_id','stock','image','views','rate',]);
-
-        $query->with('categories');
 
         if(isset($request->search)){
             $this->addSearch($query, $request->search, $this->searchable);
         }
-
         return collect( $this->addPagination($query, $request->query()) );
     }
 }
