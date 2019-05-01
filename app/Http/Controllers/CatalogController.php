@@ -9,18 +9,6 @@ use Illuminate\View\View;
 
 class CatalogController extends Controller
 {
-    private $routes;
-
-    public function __construct()
-    {
-        $this->routes = [
-            "home" => route("home"),
-            "catalog" => route("catalog.index"),
-            "cart" => route("cart"),
-
-            "addToCart" => route("addToCart"),
-        ];
-    }
 
     /**
      * @param Request $request

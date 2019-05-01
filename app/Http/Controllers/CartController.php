@@ -10,19 +10,6 @@ use Illuminate\View\View;
 
 class CartController extends Controller
 {
-    private $routes;
-
-    public function __construct()
-    {
-        $this->routes = [
-            "home" => route("home"),
-            "catalog" => route("catalog.index"),
-            "cart" => route("cart"),
-
-            "addToCart" => route("addToCart"),
-            "setItemCountInCart" => route("setItemCountInCart"),
-        ];
-    }
 
     /**
      * @param CartItem $cartItem
