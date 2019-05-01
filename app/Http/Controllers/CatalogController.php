@@ -15,11 +15,10 @@ class CatalogController extends Controller
     {
         $this->routes = [
             "home" => route("home"),
-            "catalog" => route("catalog"),
+            "catalog" => route("catalog.index"),
             "cart" => route("cart"),
 
             "addToCart" => route("addToCart"),
-            "catalog" => route("catalog"),
         ];
     }
 

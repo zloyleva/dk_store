@@ -12,9 +12,13 @@ Route::get('/', function () {
     return view('welcome');
 })->name("home");
 
-Route::prefix("catalog")->group(function(){
-    Route::get('/',"CatalogController@index")->name("catalog");
-    Route::get('/{slug}',"CatalogController@indexBySlag")->name("catalogSlug")->where('slug','[A-Za-z0-9-]+');
+Route::group(['prefix' => 'catalog', 'as' => 'catalog.'], function(){
+    Route::get('/',"CatalogController@index")->name("index");
+    Route::get('/{slug}',"CatalogController@indexBySlag")->name("indexBySlug")->where('slug','[A-Za-z0-9-]+');
+});
+
+Route::group(['prefix' => 'product', 'as' => 'product.'], function(){
+    Route::get('/{id}/{slug}',"ProductController@show")->name("show")->where(['id' => '[0-9]+', 'slug' => '[A-Za-z0-9-]+']);
 });
 
 Route::prefix("cart")->group(function(){
