@@ -34,7 +34,10 @@
                 <div class="container">
                     <div class="row my-2">
                         <div class="col-9 text-right font-weight-bold">Всего:</div>
-                        <div class="col-3 text-center">120</div>
+                        <div class="col-3 text-center">
+                            <font-awesome-icon v-if="isUploadCart" icon="sync" spin class="mr-1"/>
+                            {{ total }} грн
+                        </div>
                     </div>
                 </div>
             </div>
@@ -62,25 +65,35 @@
         },
         data(){
             return{
-                cartItems: []
+                cartItems: [],
+                isUploadCart: false,
             }
         },
         created(){
             this.cartItems = [...this.items];
         },
+        computed:{
+            total(){
+                return parseFloat(this.cartItems.reduce((sum, el) => sum + (el.count * el.product.price), 0)).toFixed(2);
+            }
+        },
         methods:{
-            changeItemCountHandler(cartItem){
+            async changeItemCountHandler(cartItem){
                 console.log("changeItemCountHandler",cartItem);
 
-                axios.post(this.routes.setItemCountInCart,{
+                this.isUploadCart = true;
+
+                await axios.post(this.routes.setItemCountInCart,{
                     product_id: cartItem.product.id,
                     count: cartItem.count,
                 })
                     .then(res => {
-                        console.log(res.data.items)
+                        console.log(res.data.items);
                         this.cartItems = [...res.data.items];
                     })
-                    .catch(err => console.log(err.message))
+                    .catch(err => console.log(err.message));
+
+                this.isUploadCart = false;
             }
         },
     }

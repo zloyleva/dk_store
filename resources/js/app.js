@@ -15,10 +15,10 @@ import BootstrapVue from 'bootstrap-vue';
 Vue.use(BootstrapVue);
 
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faSearch, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faPlus, faMinus, faSync } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-library.add(faSearch, faPlus, faMinus);
+library.add(faSearch, faPlus, faMinus, faSync);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
