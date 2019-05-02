@@ -8,6 +8,9 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+
+import store from './store'
+
 import BootstrapVue from 'bootstrap-vue';
 Vue.use(BootstrapVue);
 
@@ -35,6 +38,7 @@ Vue.config.productionTip = false;
 Vue.component('header-component', require('./components/Layouts/Header').default);
 Vue.component('catalog-component', require('./components/Catalog/Index').default);
 Vue.component('cart-component', require('./components/Cart/Index').default);
+Vue.component('product-component', require('./components/Product/IndexComponent').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -43,5 +47,6 @@ Vue.component('cart-component', require('./components/Cart/Index').default);
  */
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    store
 });

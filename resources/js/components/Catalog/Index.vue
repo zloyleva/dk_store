@@ -17,7 +17,7 @@
                     <product-item-component
                         v-for="item in products.data"
                         :product="item" :key="item.id"
-                        @addtocart="addToCartHandler"
+                        :routes="routes"
                     ></product-item-component>
                 </div>
 
