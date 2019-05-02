@@ -19,6 +19,7 @@ class Product extends Model
 
     private $price_name;
     private $price_desc;
+    private $select_array;
 
     public function __construct(array $attributes = [])
     {
@@ -31,6 +32,12 @@ class Product extends Model
             $this->price_name = $users_price->type;
             $this->price_desc = $users_price->description;
         }
+
+        $this->select_array = [
+            'id','sku','slug','name','description', 'category_id','stock','image','views','rate',
+            "$this->price_name as price",
+            DB::raw("'$this->price_desc' as price_desc"),
+        ];
     }
 
     protected $fillable = [
@@ -73,7 +80,7 @@ class Product extends Model
     {
 
         Log::info("in model " . $item['sku']);
-        $imageURL = '/images/no-image.png';
+        $imageURL = '/images/no-image.png'; // Todo change real imag
 
         return $this->updateOrCreate(
             ['sku'         => (integer) $item['sku']],
@@ -103,11 +110,7 @@ class Product extends Model
      */
     public function getAll(Request $request, Collection $categoriesId=null):Collection
     {
-        $query = $this->select([
-            'id','sku','name','description', 'category_id','stock','image','views','rate',
-            "$this->price_name as price",
-            DB::raw("'$this->price_desc' as price_desc"),
-        ])->with('categories');
+        $query = $this->selectProductWithCategory();
 
         if($categoriesId){
             $query->whereIn('category_id',$categoriesId);
@@ -117,5 +120,24 @@ class Product extends Model
             $this->addSearch($query, $request->search, $this->searchable);
         }
         return collect( $this->addPagination($query, $request->query()) );
+    }
+
+    /**
+     * @param $query
+     * @param int $id
+     * @param string $slug
+     */
+    public function scopeFindProduct($query,int $id, string $slug){
+        $query->selectProductWithCategory()
+            ->where(['id' => $id, 'slug' => $slug]);
+    }
+
+    /**
+     * @param $query
+     */
+    public function scopeSelectProductWithCategory($query){
+        $query->select($this->select_array)->with(['categories' => function($q){
+            $q->with('parent');
+        }]);
     }
 }
